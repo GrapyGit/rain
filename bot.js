@@ -36,6 +36,7 @@ bot.on('text', async (ctx) => {
 Температура: ${data['main']['temp']} °C
 Скорость ветра: ${data['wind']['speed']} м/c  
 На небе: ${data['weather'][0]['description']}
+Влажость: ${data['main']['humidity']} %
 `)
         ctx.replyWithPhoto("http://openweathermap.org/img/wn/" + data['weather'][0]['icon'] + "@2x.png");
       })
