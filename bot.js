@@ -6,7 +6,7 @@ const bot = new Telegraf(config.get('token'))
 bot.start( ctx => ctx.reply(`
 Привет ${ctx.from.first_name}!
 Узнай погоду в интересующем тебя городе.
-Введи название города на английском языке и получи температуру.
+Введи название города и получи температуру.
 `)
 )
 bot.help((ctx) => ctx.reply(`
