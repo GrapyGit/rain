@@ -3,17 +3,21 @@ global.fetch = require("node-fetch");
 const config = require("config");
 const { Telegraf } = require('telegraf');
 const bot = new Telegraf(config.get('token'))
+
 bot.start( ctx => ctx.reply(`
 Привет ${ctx.from.first_name}!
 Узнай погоду в интересующем тебя городе.
 Введи название города и получи температуру.
 `))
+
 bot.help((ctx) => ctx.reply(`
    Есть много городов и есть один бот
    Федя, самое главное зонт не забудь
    Есть вопросы вводи команду /voprosy
 `))
+
 bot.hears('кто такой Федя?', (ctx) => ctx.reply('Тоби забанить'))
+
 bot.command('voprosy', (ctx) => ctx.reply(
   `
   За достоверность информации не вручаюсь
@@ -21,6 +25,7 @@ bot.command('voprosy', (ctx) => ctx.reply(
   Вопросы не ко мне :)
   `
 ))
+
 bot.on('text', async (ctx) => {
   if (ctx.message.text.toLowerCase() in pogoda) {
     fetch('https://api.openweathermap.org/data/2.5/weather?zip=' + pogoda[ctx.message.text.toLowerCase()] + ',ru&lang=ru&appid=' + config.get('apitoken') + '&units=metric')
@@ -38,5 +43,7 @@ bot.on('text', async (ctx) => {
   }
   else ctx.reply("Нет такого города " + ctx.message.text + " :(")
 })
+
 bot.on('sticker', (ctx) => ctx.reply('Я не понимаю что ты иммеешь ввиду :(')) 
+
 bot.launch()
