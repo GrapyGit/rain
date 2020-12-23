@@ -47,7 +47,7 @@ bot.on('text', async (ctx) => {
       )
     }
     )
-    .catch(err => ctx.reply("Непонятная ошибка LoL"))
+    .catch(err => ctx.reply("Не найден город {" + ctx.message.text.toLowerCase() + "}"))
 })
 bot.on('sticker', (ctx) => ctx.reply('Я не понимаю что ты имеешь ввиду :('))
 bot.launch()
