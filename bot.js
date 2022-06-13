@@ -1,7 +1,7 @@
 global.fetch = require("node-fetch");
-const config = require("config");
 const { Telegraf } = require('telegraf');
-const bot = new Telegraf(config.get('token'))
+require('dotenv').config()
+const bot = new Telegraf(process.env.Bot_token)
 bot.start(ctx => ctx.reply(`
 Привет ${ctx.from.first_name}!
 Узнай погоду в интересующем тебя городе.
@@ -31,7 +31,7 @@ bot.command('voprosy', (ctx) => ctx.reply(
   `
 ))
 bot.on('text', async (ctx) => {
-  fetch(encodeURI('https://api.openweathermap.org/data/2.5/weather?q=' + ctx.message.text.toLowerCase() + '&lang=ru&appid=' + config.get('apitoken') + '&units=metric'))
+  fetch(encodeURI('https://api.openweathermap.org/data/2.5/weather?q=' + ctx.message.text.toLowerCase() + '&lang=ru&appid=' + process.env.Api_token + '&units=metric'))
     .then(Response => Response.json())
     .then(data => {
       ctx.replyWithPhoto("http://openweathermap.org/img/wn/" + data['weather'][0]['icon'] + "@4x.png",
@@ -52,3 +52,5 @@ bot.on('text', async (ctx) => {
 bot.on('sticker', (ctx) => ctx.reply('Я не понимаю что ты имеешь ввиду :('))
 bot.launch()
 
+process.once('SIGINT', () => bot.stop('SIGINT'))
+process.once('SIGTERM', () => bot.stop('SIGTERM'))
